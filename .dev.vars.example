@@ -1,0 +1,10 @@
+# Copy to `.dev.vars` for local development (`.dev.vars` is gitignored).
+# Get these from the LINE Developers Console → your Messaging API channel.
+LINE_CHANNEL_SECRET="your-channel-secret"
+LINE_CHANNEL_ACCESS_TOKEN="your-long-lived-channel-access-token"
+
+# Enable the /debug/simulate endpoint locally (never set in prod).
+DEBUG="1"
+
+# Optional: shorten the throttle window for local testing (ms). Defaults to 10000.
+# WINDOW_MS="1000"
