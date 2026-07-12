@@ -1,31 +1,45 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "elite-name-bot",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-09-01",
-  "observability": { "enabled": true },
-
-  // Non-secret vars. Secrets (LINE_CHANNEL_SECRET, LINE_CHANNEL_ACCESS_TOKEN)
-  // live in .dev.vars locally and `wrangler secret put` in prod.
-  "vars": {
-    "WINDOW_MS": "10000"
-  },
-
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "elite-name-bot",
-      // Fill after `wrangler d1 create elite-name-bot`
-      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
-      "migrations_dir": "drizzle"
-    }
-  ],
-
-  "durable_objects": {
-    "bindings": [{ "name": "GROUP_DO", "class_name": "GroupDO" }]
-  },
-
-  "migrations": [
-    { "tag": "v1", "new_sqlite_classes": ["GroupDO"] }
-  ]
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "elite-name-bot",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-09-01",
+	"observability": {
+		"enabled": true
+	},
+	// Non-secret vars. Secrets (LINE_CHANNEL_SECRET, LINE_CHANNEL_ACCESS_TOKEN)
+	// live in .dev.vars locally and `wrangler secret put` in prod.
+	"vars": {
+		"WINDOW_MS": "2000"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "elite-name-bot",
+			// Fill after `wrangler d1 create elite-name-bot`
+			"database_id": "d7d533f3-74e4-46b8-b70c-ef6db3eed152",
+			"migrations_dir": "drizzle"
+		},
+		// {
+		// 	"binding": "elite_name_bot",
+		// 	"database_name": "elite-name-bot",
+		// 	"database_id": "d7d533f3-74e4-46b8-b70c-ef6db3eed152",
+		// 	"remote": true
+		// }
+	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "GROUP_DO",
+				"class_name": "GroupDO"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": [
+				"GroupDO"
+			]
+		}
+	]
 }

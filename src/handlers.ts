@@ -1,13 +1,7 @@
 import type { Db } from "./db/client";
 import { parseBoard, splitNames } from "./parser";
 import { renderBoard } from "./render";
-import {
-  addName,
-  createSessionFromBoard,
-  getActiveSession,
-  listNames,
-  removeName,
-} from "./repo";
+import { addName, createSessionFromBoard, getActiveSession, listNames, removeName } from "./repo";
 
 export const HINT_NO_SESSION =
   "ยังไม่มีรายการลงชื่อในกลุ่มนี้ — ให้แอดมินโพสต์ข้อความที่ขึ้นต้นด้วย ELITE: ก่อนนะครับ";
@@ -38,18 +32,14 @@ export type Action =
  * Apply an incoming text message to the group's board state.
  * Pure w.r.t. LINE — used by both the Durable Object and /debug/simulate.
  */
-export async function applyMessage(
-  db: Db,
-  sourceId: string,
-  text: string,
-): Promise<Action> {
+export async function applyMessage(db: Db, sourceId: string, text: string): Promise<Action> {
   const trimmed = text.trim();
 
   // New / manual board — parse names out and make it the active session.
   if (trimmed.startsWith("ELITE:")) {
     const { header, names } = parseBoard(text);
     await createSessionFromBoard(db, sourceId, header, names);
-    return { type: "reply_now", text: renderBoard(header, names) };
+    return { type: "ignore" };
   }
 
   const isAdd = trimmed.startsWith("+");
@@ -70,10 +60,7 @@ export async function applyMessage(
 }
 
 /** Render the group's current active board, or null if none exists. */
-export async function renderActiveBoard(
-  db: Db,
-  sourceId: string,
-): Promise<string | null> {
+export async function renderActiveBoard(db: Db, sourceId: string): Promise<string | null> {
   const session = await getActiveSession(db, sourceId);
   if (!session) return null;
   const names = await listNames(db, session.id);
